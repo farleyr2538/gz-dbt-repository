@@ -9,7 +9,6 @@ with purchase_cost_table as (
     from {{ ref('stg_raw__sales') }} as sales
     join {{ ref('stg_raw__product') }} as product
     on product.products_id = sales.products_id
-    limit 15
 
 )
 
