@@ -1,7 +1,8 @@
 with purchase_cost_table as (
     
     select
-        sales.date_date
+        sales.date_date as date_date
+        , sales.orders_id as orders_id
         , sales.revenue as revenue
         , product.purchase_price
         , sales.quantity as quantity
