@@ -1,0 +1,56 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: gwz_raw_data
+    description: raw data
+    tables:
+      - name: product
+        identifier: raw_gz_product
+        description: products of Greenweez / we have on row per product_id
+        columns:
+          - name: products_id
+            description: pk / identifier of product
+            data_tests:
+              - unique
+              - not_null
+          - name: purchse_price
+            description: cost of purchasing any given product
+      - name: sales
+        loaded_at_field: CAST(date_date AS TIMESTAMP)
+        freshness:
+          warn_after:
+            {count: 90,
+            period: day}
+        
+        identifier: raw_gz_sales
+        description: sales of Greenweez / we have on row per product_id found in each orders_id
+        columns:
+          - name: date_date
+            description: date of sale
+          - name: orders_id
+            description: corresponding order. order_id + products_id = pk
+          - name: products_id
+            description: the associated product. order_id + products_id = pk
+          - name: revenue
+            description: the revenue earned for these products in this sale
+          - name: quantity
+            description: the number of items defined in products_id
+        tests:
+          - unique:
+              column_name: "(orders_id || pdt_id)"
+      - name: ship
+        identifier: raw_gz_ship
+        description: deliveries of Greenweez / we have on row per orders_id
+        columns:
+          - name: orders_id
+            description: pk of ship
+            data_tests:
+              - unique
+              - not_null
+          - name: shipping_fee
+            description: euros we charged for shipping
+          - name: log_cost
+            description: the logistical cost incurred
+          - name: ship_cost
+            description: the shipping cost incurred
