@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: raw
-    schema: gwz_raw_data
+    schema: gz_raw_data
     description: raw data
     tables:
       - name: product
@@ -22,7 +22,6 @@ sources:
           warn_after:
             {count: 90,
             period: day}
-        
         identifier: raw_gz_sales
         description: sales of Greenweez / we have on row per product_id found in each orders_id
         columns:
@@ -30,7 +29,7 @@ sources:
             description: date of sale
           - name: orders_id
             description: corresponding order. order_id + products_id = pk
-          - name: products_id
+          - name: pdt_id
             description: the associated product. order_id + products_id = pk
           - name: revenue
             description: the revenue earned for these products in this sale
@@ -54,3 +53,64 @@ sources:
             description: the logistical cost incurred
           - name: ship_cost
             description: the shipping cost incurred
+      - name: adwords
+        identifier: gz_raw_adwords
+        description: adwords data
+        columns:
+          - name: date_date
+            description: date of campaign
+          - name: paid_source
+            description: the source of the campaign
+          - name: campaign_key
+            description: key for the campaign
+          - name: camPGN_name
+            description: name of the campaign
+          - name: ads_cost
+            description: cost of the ads
+          - name: impression
+          - name: click
+        tests:
+          - unique:
+              column_name: "(date_date || '-' || campaign_key)"
+      - name: facebook
+        identifier: gz_raw_facebook
+        description: campaigns run of facebook
+        columns:
+          - name: date_date
+          - name: paid_source
+          - name: campaign_key
+          - name: camPGN_name
+          - name: ads_cost
+          - name: impression
+          - name: click
+        tests:
+          - unique:
+              column_name: "(date_date || '-' || campaign_key)"
+      - name: bing
+        identifier: gz_raw_bing
+        description: campaigns run on bing
+        columns:
+          - name: date_date
+          - name: paid_source
+          - name: campaign_key
+          - name: camPGN_name
+          - name: ads_cost
+          - name: impression
+          - name: click
+        tests:
+          - unique:
+              column_name: "(date_date || '-' || campaign_key)"
+      - name: criteo
+        identifier: gz_raw_criteo
+        description: campaigns run on criteo
+        columns:
+          - name: date_date
+          - name: paid_source
+          - name: campaign_key
+          - name: camPGN_name
+          - name: ads_cost
+          - name: impression
+          - name: click
+        tests:
+          - unique:
+              column_name: "(date_date || '-' || campaign_key)"
