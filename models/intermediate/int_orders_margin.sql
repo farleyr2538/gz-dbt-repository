@@ -7,7 +7,6 @@ with aggregated_order as (
         , SUM(quantity) as quantity
         , round(SUM(purchase_cost), 2) as purchase_cost
     from {{ ref('int_sales_margin') }}
-    where orders_id in (1002561, 1002560, 1002559)
     group by orders_id
 
 )
