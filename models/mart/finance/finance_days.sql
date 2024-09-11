@@ -1,4 +1,5 @@
 /* */
+
 with aggregated_sales as (
     
     select 
